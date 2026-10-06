@@ -2,7 +2,8 @@
 
 **A free Python 3 editor and runner for your phone.** No install, no fee, no sign-up.
 
-### ▶ Open the app: **https://genersiddayao.github.io/pymobile/**
+### ▶ Website: **https://genersiddayao.github.io/pymobile/**
+### ▶ Go straight to the app: **https://genersiddayao.github.io/pymobile/app/**
 
 Built for students and faculty of Cagayan State University, and free for anyone learning Python.
 
@@ -28,7 +29,7 @@ Many students learn programming without owning a laptop, and popular mobile Pyth
 
 ## Quick start
 
-1. Open **https://genersiddayao.github.io/pymobile/** on your phone.
+1. Open **https://genersiddayao.github.io/pymobile/** on your phone and tap **Launch the app**.
 2. Type your code, or open the menu (☰) and pick an example.
 3. Tap the green **Run** button. On a laptop, press **Ctrl + Enter**.
 
@@ -59,7 +60,7 @@ For numpy or pandas, use Google Colab or a computer with Python installed.
 
 ## How it's built
 
-A single static `index.html`, hosted on GitHub Pages:
+Static files hosted on GitHub Pages: `index.html` is the landing page and `app/index.html` is the app.
 
 - [Skulpt](https://skulpt.org/) runs Python in the browser
 - [CodeMirror 5](https://codemirror.net/5/) powers the code editor

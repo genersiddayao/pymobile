@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Free Python 3 editor and runner for phones, made for Cagayan State University students.">
+<meta name="theme-color" content="#2451c7">
+<style>html,body{margin:0}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box}*,*::before,*::after{box-sizing:border-box}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>PyMobile IDE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap">
+<style>
+ .CodeMirror { font-family: monospace; height: 300px; color: black; direction: ltr; } .CodeMirror-lines { padding: 4px 0; } .CodeMirror pre.CodeMirror-line, .CodeMirror pre.CodeMirror-line-like { padding: 0 4px; } .CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler { background-color: white; } .CodeMirror-gutters { border-right: 1px solid #ddd; background-color: #f7f7f7; white-space: nowrap; } .CodeMirror-linenumbers {} .CodeMirror-linenumber { padding: 0 3px 0 5px; min-width: 20px; text-align: right; color: #999; white-space: nowrap; } .CodeMirror-guttermarker { color: black; } .CodeMirror-guttermarker-subtle { color: #999; } .CodeMirror-cursor { border-left: 1px solid black; border-right: none; width: 0; } .CodeMirror div.CodeMirror-secondarycursor { border-left: 1px solid silver; } .cm-fat-cursor .CodeMirror-cursor { width: auto; border: 0 !important; background: #7e7; } .cm-fat-cursor div.CodeMirror-cursors { z-index: 1; } .cm-fat-cursor .CodeMirror-line::selection, .cm-fat-cursor .CodeMirror-line > span::selection, .cm-fat-cursor .CodeMirror-line > span > span::selection { background: transparent; } .cm-fat-cursor .CodeMirror-line::-moz-selection, .cm-fat-cursor .CodeMirror-line > span::-moz-selection, .cm-fat-cursor .CodeMirror-line > span > span::-moz-selection { background: transparent; } .cm-fat-cursor { caret-color: transparent; } @-moz-keyframes blink { 0% {} 50% { background-color: transparent; } 100% {} } @-webkit-keyframes blink { 0% {} 50% { background-color: transparent; } 100% {} } @keyframes blink { 0% {} 50% { background-color: transparent; } 100% {} } .CodeMirror-overwrite .CodeMirror-cursor {} .cm-tab { display: inline-block; text-decoration: inherit; } .CodeMirror-rulers { position: absolute; left: 0; right: 0; top: -50px; bottom: 0; overflow: hidden; } .CodeMirror-ruler { border-left: 1px solid #ccc; top: 0; bottom: 0; position: absolute; } .cm-s-default .cm-header {color: blue;} .cm-s-default .cm-quote {color: #090;} .cm-negative {color: #d44;} .cm-positive {color: #292;} .cm-header, .cm-strong {font-weight: bold;} .cm-em {font-style: italic;} .cm-link {text-decoration: underline;} .cm-strikethrough {text-decoration: line-through;} .cm-s-default .cm-keyword {color: #708;} .cm-s-default .cm-atom {color: #219;} .cm-s-default .cm-number {color: #164;} .cm-s-default .cm-def {color: #00f;} .cm-s-default .cm-variable, .cm-s-default .cm-punctuation, .cm-s-default .cm-property, .cm-s-default .cm-operator {} .cm-s-default .cm-variable-2 {color: #05a;} .cm-s-default .cm-variable-3, .cm-s-default .cm-type {color: #085;} .cm-s-default .cm-comment {color: #a50;} .cm-s-default .cm-string {color: #a11;} .cm-s-default .cm-string-2 {color: #f50;} .cm-s-default .cm-meta {color: #555;} .cm-s-default .cm-qualifier {color: #555;} .cm-s-default .cm-builtin {color: #30a;} .cm-s-default .cm-bracket {color: #997;} .cm-s-default .cm-tag {color: #170;} .cm-s-default .cm-attribute {color: #00c;} .cm-s-default .cm-hr {color: #999;} .cm-s-default .cm-link {color: #00c;} .cm-s-default .cm-error {color: #f00;} .cm-invalidchar {color: #f00;} .CodeMirror-composing { border-bottom: 2px solid; } div.CodeMirror span.CodeMirror-matchingbracket {color: #0b0;} div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #a22;} .CodeMirror-matchingtag { background: rgba(255, 150, 0, .3); } .CodeMirror-activeline-background {background: #e8f2ff;} .CodeMirror { position: relative; overflow: hidden; background: white; } .CodeMirror-scroll { overflow: scroll !important; margin-bottom: -50px; margin-right: -50px; padding-bottom: 50px; height: 100%; outline: none; position: relative; z-index: 0; } .CodeMirror-sizer { position: relative; border-right: 50px solid transparent; } .CodeMirror-vscrollbar, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler { position: absolute; z-index: 6; display: none; outline: none; } .CodeMirror-vscrollbar { right: 0; top: 0; overflow-x: hidden; overflow-y: scroll; } .CodeMirror-hscrollbar { bottom: 0; left: 0; overflow-y: hidden; overflow-x: scroll; } .CodeMirror-scrollbar-filler { right: 0; bottom: 0; } .CodeMirror-gutter-filler { left: 0; bottom: 0; } .CodeMirror-gutters { position: absolute; left: 0; top: 0; min-height: 100%; z-index: 3; } .CodeMirror-gutter { white-space: normal; height: 100%; display: inline-block; vertical-align: top; margin-bottom: -50px; } .CodeMirror-gutter-wrapper { position: absolute; z-index: 4; background: none !important; border: none !important; } .CodeMirror-gutter-background { position: absolute; top: 0; bottom: 0; z-index: 4; } .CodeMirror-gutter-elt { position: absolute; cursor: default; z-index: 4; } .CodeMirror-gutter-wrapper ::selection { background-color: transparent } .CodeMirror-gutter-wrapper ::-moz-selection { background-color: transparent } .CodeMirror-lines { cursor: text; min-height: 1px; } .CodeMirror pre.CodeMirror-line, .CodeMirror pre.CodeMirror-line-like { -moz-border-radius: 0; -webkit-border-radius: 0; border-radius: 0; border-width: 0; background: transparent; font-family: inherit; font-size: inherit; margin: 0; white-space: pre; word-wrap: normal; line-height: inherit; color: inherit; z-index: 2; position: relative; overflow: visible; -webkit-tap-highlight-color: transparent; -webkit-font-variant-ligatures: contextual; font-variant-ligatures: contextual; } .CodeMirror-wrap pre.CodeMirror-line, .CodeMirror-wrap pre.CodeMirror-line-like { word-wrap: break-word; white-space: pre-wrap; word-break: normal; } .CodeMirror-linebackground { position: absolute; left: 0; right: 0; top: 0; bottom: 0; z-index: 0; } .CodeMirror-linewidget { position: relative; z-index: 2; padding: 0.1px; } .CodeMirror-widget {} .CodeMirror-rtl pre { direction: rtl; } .CodeMirror-code { outline: none; } .CodeMirror-scroll, .CodeMirror-sizer, .CodeMirror-gutter, .CodeMirror-gutters, .CodeMirror-linenumber { -moz-box-sizing: content-box; box-sizing: content-box; } .CodeMirror-measure { position: absolute; width: 100%; height: 0; overflow: hidden; visibility: hidden; } .CodeMirror-cursor { position: absolute; pointer-events: none; } .CodeMirror-measure pre { position: static; } div.CodeMirror-cursors { visibility: hidden; position: relative; z-index: 3; } div.CodeMirror-dragcursors { visibility: visible; } .CodeMirror-focused div.CodeMirror-cursors { visibility: visible; } .CodeMirror-selected { background: #d9d9d9; } .CodeMirror-focused .CodeMirror-selected { background: #d7d4f0; } .CodeMirror-crosshair { cursor: crosshair; } .CodeMirror-line::selection, .CodeMirror-line > span::selection, .CodeMirror-line > span > span::selection { background: #d7d4f0; } .CodeMirror-line::-moz-selection, .CodeMirror-line > span::-moz-selection, .CodeMirror-line > span > span::-moz-selection { background: #d7d4f0; } .cm-searching { background-color: #ffa; background-color: rgba(255, 255, 0, .4); } .cm-force-border { padding-right: .1px; } @media print { .CodeMirror div.CodeMirror-cursors { visibility: hidden; } } .cm-tab-wrap-hack:after { content: ''; } span.CodeMirror-selectedtext { background: none; } 
+/* Layout: one-screen app. Wide = editor | output side by side. Phone = Code / Output tabs + a key bar for Python symbols. */
+:root{
+  --bg:#eef1f5; --panel:#ffffff; --panel2:#f6f8fb; --ink:#152033; --muted:#5a667a; --line:#d9e0e9;
+  --accent:#2451c7; --accent-ink:#ffffff; --run:#16804f; --run-ink:#ffffff; --err:#b93228; --warn:#9a6400;
+  --sel:#d6e1ff; --errline:#fde7e4; --curline:#f3f6fc;
+  --kw:#8a2bb3; --str:#1d7a3e; --num:#b35a00; --com:#7d8898; --def:#2451c7; --bi:#0b7285; --op:#152033;
+  --ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --fs:15px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0d1219; --panel:#141b25; --panel2:#18212d; --ink:#e2e8f1; --muted:#8e9aac; --line:#243041;
+  --accent:#7ea2ff; --accent-ink:#0d1219; --run:#35c485; --run-ink:#06140d; --err:#ff8177; --warn:#f0b54a;
+  --sel:#2a3a5c; --errline:#3a1f22; --curline:#19222e;
+  --kw:#d49bff; --str:#8bd49c; --num:#ffb86b; --com:#6b7789; --def:#8fb0ff; --bi:#66d4e3; --op:#e2e8f1; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0d1219; --panel:#141b25; --panel2:#18212d; --ink:#e2e8f1; --muted:#8e9aac; --line:#243041;
+  --accent:#7ea2ff; --accent-ink:#0d1219; --run:#35c485; --run-ink:#06140d; --err:#ff8177; --warn:#f0b54a;
+  --sel:#2a3a5c; --errline:#3a1f22; --curline:#19222e;
+  --kw:#d49bff; --str:#8bd49c; --num:#ffb86b; --com:#6b7789; --def:#8fb0ff; --bi:#66d4e3; --op:#e2e8f1; color-scheme:dark}
+
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);font-size:14px;overflow:hidden}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.app{height:100%;display:grid;grid-template-rows:auto auto 1fr auto}
+/* header */
+.top{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--panel);border-bottom:1px solid var(--line)}
+.brand{font-family:var(--mono);font-weight:700;font-size:15px;letter-spacing:-.02em;white-space:nowrap}
+.brand b{color:var(--accent)}
+.fname{min-width:0;flex:1;display:flex;align-items:center;gap:6px}
+.fname button{background:none;border:0;padding:4px 6px;border-radius:6px;font-family:var(--mono);font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.fname button:hover{background:var(--panel2);color:var(--ink)}
+.icon{width:36px;height:36px;display:grid;place-items:center;border:1px solid transparent;background:none;border-radius:8px;flex:none}
+.icon:hover{background:var(--panel2);border-color:var(--line)}
+.icon svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.run{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 16px;border:0;border-radius:8px;background:var(--run);color:var(--run-ink);font-weight:600;flex:none}
+.run svg{width:14px;height:14px;fill:currentColor}
+.run.stop{background:var(--err);color:var(--panel)}
+.hide-narrow{}
+/* tabs (phone) */
+.tabs{display:none;background:var(--panel);border-bottom:1px solid var(--line)}
+.tabs button{flex:1;background:none;border:0;padding:10px;font-weight:500;color:var(--muted);border-bottom:2px solid transparent}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tabs .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--run);margin-left:6px;vertical-align:middle}
+
+/* work area */
+.work{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);min-height:0}
+.pane{min-height:0;min-width:0;display:flex;flex-direction:column}
+.edpane{border-right:1px solid var(--line);background:var(--panel)}
+.edwrap{flex:1;min-height:0;position:relative}
+.CodeMirror{height:100%;font-family:var(--mono);font-size:var(--fs);line-height:1.55;background:var(--panel);color:var(--ink)}
+.CodeMirror-gutters{background:var(--panel2);border-right:1px solid var(--line)}
+.CodeMirror-linenumber{color:var(--muted);font-size:.85em;padding:0 8px 0 6px}
+.CodeMirror-cursor{border-left:2px solid var(--accent)}
+.CodeMirror-selected,.CodeMirror-focused .CodeMirror-selected{background:var(--sel)}
+.CodeMirror-activeline-background{background:var(--curline)}
+.CodeMirror-matchingbracket{color:var(--ink)!important;background:var(--sel);outline:1px solid var(--accent)}
+.cm-errline{background:var(--errline)}
+.cm-s-default .cm-keyword{color:var(--kw);font-weight:600}.cm-s-default .cm-string{color:var(--str)}.cm-s-default .cm-number{color:var(--num)}
+.cm-s-default .cm-comment{color:var(--com);font-style:italic}.cm-s-default .cm-def{color:var(--def);font-weight:600}.cm-s-default .cm-builtin{color:var(--bi)}
+.cm-s-default .cm-variable,.cm-s-default .cm-variable-2,.cm-s-default .cm-property,.cm-s-default .cm-operator,.cm-s-default .cm-punctuation{color:var(--op)}.cm-s-default .cm-meta{color:var(--warn)}.cm-s-default .cm-atom{color:var(--num)}
+
+/* output */
+.outpane{background:var(--bg)}
+.outbar{display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid var(--line);background:var(--panel)}
+.outbar h2{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600;margin:0}
+.pill{font-size:12px;padding:3px 9px;border-radius:99px;background:var(--panel2);border:1px solid var(--line);color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.pill.running{color:var(--run);border-color:var(--run)}
+.pill.waiting{color:var(--warn);border-color:var(--warn)}
+.pill.error{color:var(--err);border-color:var(--err)}
+.spacer{flex:1}
+.textbtn{background:none;border:1px solid var(--line);border-radius:6px;padding:4px 10px;font-size:12px;color:var(--muted)}
+.textbtn:hover{color:var(--ink);background:var(--panel2)}
+.outscroll{flex:1;min-height:0;overflow:auto;padding:12px 14px 24px}
+#turtle{display:none;margin-bottom:12px;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:auto;max-width:100%}
+#turtle.on{display:block}
+#turtle canvas{max-width:100%}
+.console{font-family:var(--mono);font-size:calc(var(--fs) - 1px);line-height:1.55;white-space:pre-wrap;word-break:break-word;margin:0}
+.console .err{color:var(--err)}
+.console .sys{color:var(--muted);font-style:italic}
+.console .in{color:var(--accent);font-weight:600}
+.console .jump{background:none;border:0;padding:0;color:var(--err);text-decoration:underline;font:inherit;cursor:pointer}
+.console input.pyin{font-family:var(--mono);font-size:inherit;border:0;border-bottom:2px solid var(--accent);background:transparent;color:var(--accent);font-weight:600;outline:0;width:min(60%,320px);padding:0 2px}
+.empty{color:var(--muted);font-size:13px;line-height:1.6;max-width:44ch}
+.empty kbd{font-family:var(--mono);font-size:12px;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:0 5px;background:var(--panel)}
+
+/* key bar */
+.keys{display:none;gap:6px;overflow-x:auto;padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));background:var(--panel);border-top:1px solid var(--line);scrollbar-width:none}
+.keys::-webkit-scrollbar{display:none}
+.keys button{flex:none;min-width:38px;height:36px;padding:0 10px;border:1px solid var(--line);border-bottom-width:2px;border-radius:7px;background:var(--panel2);font-family:var(--mono);font-size:15px}
+.keys button:active{transform:translateY(1px)}
+.keys .wide{font-family:var(--ui);font-size:12px}
+
+/* drawer */
+.scrim{position:fixed;inset:0;background:rgba(10,15,25,.45);opacity:0;pointer-events:none;transition:opacity .2s;z-index:20}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;bottom:0;left:0;width:min(330px,88vw);background:var(--panel);border-right:1px solid var(--line);z-index:21;transform:translateX(-102%);transition:transform .22s ease;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.drawer.on{transform:none}
+.dhead{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--line)}
+.dbody{flex:1;overflow:auto;padding:10px 10px 20px;display:flex;flex-direction:column;gap:18px}
+.sec h3{font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin:0 6px 6px;font-weight:600}
+.row{display:flex;align-items:center;gap:4px;border-radius:8px}
+.row>button.open{flex:1;min-width:0;text-align:left;background:none;border:0;padding:9px 8px;border-radius:8px;font-family:var(--mono);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row>button.open:hover{background:var(--panel2)}
+.row.cur>button.open{background:var(--sel);font-weight:600}
+.row .mini{width:30px;height:30px;border:0;background:none;border-radius:6px;color:var(--muted);display:grid;place-items:center;flex:none}
+.row .mini:hover{background:var(--panel2);color:var(--ink)}
+.row .mini.danger{color:var(--err)}
+.row .mini svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ex{display:block;width:100%;text-align:left;background:none;border:0;padding:8px;border-radius:8px}
+.ex:hover{background:var(--panel2)}
+.ex b{display:block;font-weight:500}
+.ex span{font-size:12px;color:var(--muted)}
+.dact{display:flex;gap:6px;flex-wrap:wrap;padding:0 6px}
+.dact .textbtn{font-size:13px;padding:6px 10px}
+.about{font-size:12px;color:var(--muted);line-height:1.6;padding:0 6px}
+.about code{font-family:var(--mono);font-size:11.5px}
+.rename{display:flex;gap:6px;padding:4px}
+.rename input{flex:1;min-width:0;font-family:var(--mono);font-size:13px;padding:6px 8px;border:1px solid var(--accent);border-radius:6px;background:var(--panel2)}
+.toast{position:fixed;left:50%;bottom:calc(70px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--panel);padding:8px 14px;border-radius:8px;font-size:13px;opacity:0;transition:.2s;pointer-events:none;z-index:30}
+.toast.on{opacity:1;transform:translateX(-50%)}
+.loading{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font-size:13px;background:var(--panel)}
+
+@media (max-width:760px){
+  .tabs{display:flex}
+  .work{grid-template-columns:1fr}
+  .edpane{border-right:0}
+  .work[data-view="code"] .outpane{display:none}
+  .work[data-view="out"] .edpane{display:none}
+  .keys{display:flex}
+  .work[data-view="out"]~.keys{display:none}
+  .hide-narrow{display:none}
+  .brand span{display:none}
+  .run{padding:0 12px}
+}
+@media (prefers-reduced-motion:reduce){.drawer,.scrim,.toast{transition:none}}
+</style>
+
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <button class="icon" id="menuBtn" aria-label="Files and examples"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+    <div class="brand"><b>Py</b>Mobile<span> IDE</span></div>
+    <div class="fname"><button id="fnameBtn" title="Rename file">main.py</button></div>
+    <button class="icon hide-narrow" id="fontDown" aria-label="Smaller text"><svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button>
+    <button class="icon hide-narrow" id="fontUp" aria-label="Larger text"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+    <button class="icon" id="themeBtn" aria-label="Switch theme"><svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+    <button class="run" id="runBtn"><svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg><span>Run</span></button>
+  </header>
+  <nav class="tabs" role="tablist">
+    <button role="tab" id="tabCode" aria-selected="true">Code</button>
+    <button role="tab" id="tabOut" aria-selected="false">Output<span class="dot" id="outDot" hidden></span></button>
+  </nav>
+  <main class="work" id="work" data-view="code">
+    <section class="pane edpane">
+      <div class="edwrap" id="edwrap"><div class="loading" id="loading">Loading Python…</div></div>
+    </section>
+    <section class="pane outpane">
+      <div class="outbar">
+        <h2>Output</h2>
+        <span class="pill" id="status">Ready</span>
+        <span class="spacer"></span>
+        <button class="textbtn" id="copyOut">Copy</button>
+        <button class="textbtn" id="clearOut">Clear</button>
+      </div>
+      <div class="outscroll" id="outscroll">
+        <div id="turtle"></div>
+        <pre class="console" id="console"></pre>
+        <p class="empty" id="empty">Press <b>Run</b> (or <kbd>Ctrl</kbd>+<kbd>Enter</kbd>) to execute your script. Output, <code>input()</code> prompts and error messages show up here. Scripts run on your phone, so no internet is needed once the page has loaded.</p>
+      </div>
+    </section>
+  </main>
+  <div class="keys" id="keys"></div>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Files">
+  <div class="dhead"><div class="brand"><b>Py</b>Mobile IDE</div><button class="icon" id="closeDrawer" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="dbody">
+    <div class="sec">
+      <h3>My files</h3>
+      <div id="fileList"></div>
+      <div class="dact" style="margin-top:8px">
+        <button class="textbtn" id="newFile">+ New file</button>
+        <button class="textbtn" id="importBtn">Open .py from phone</button>
+        <button class="textbtn" id="copyCode">Copy code</button>
+        <input type="file" id="importInput" accept=".py,.txt,text/plain,text/x-python" hidden>
+      </div>
+    </div>
+    <div class="sec">
+      <h3>Examples</h3>
+      <div id="exList"></div>
+    </div>
+    <div class="sec">
+      <h3>About</h3>
+      <p class="about">Free Python 3 runner for students. Your files are saved in this browser on this phone. Runs core Python plus <code>math</code>, <code>random</code>, <code>time</code>, <code>datetime</code>, <code>string</code>, <code>re</code>, <code>collections</code>, <code>itertools</code>, <code>copy</code> and <code>turtle</code>. Libraries like numpy and pandas are not available here.</p>
+    </div>
+  </div>
+</aside>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/matchbrackets.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/closebrackets.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/selection/active-line.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const EXAMPLES=[
+ {name:"hello.py",title:"Hello + input()",desc:"Ask for a name and greet",code:`# Your first program
+name = input("What's your name? ")
+course = input("Course and year (e.g. BSIT 1): ")
+
+print(f"Hello, {name}!")
+print(f"Welcome to Python, {course} student.")
+`},
+ {name:"grades.py",title:"Grade calculator",desc:"Lists, loops, if/elif",code:`# Compute the general average and remarks
+scores = {"Prelim": 88, "Midterm": 91, "Semi-final": 85, "Final": 93}
+
+for term, score in scores.items():
+    print(f"{term:<12}{score:>5}")
+
+average = sum(scores.values()) / len(scores)
+print("-" * 17)
+print(f"{'Average':<12}{average:>5.2f}")
+
+if average >= 90:
+    remark = "Excellent"
+elif average >= 80:
+    remark = "Very Good"
+elif average >= 75:
+    remark = "Passed"
+else:
+    remark = "Failed"
+print("Remark:", remark)
+`},
+ {name:"guess.py",title:"Number guessing game",desc:"random, while loop, input()",code:`import random
+
+secret = random.randint(1, 50)
+tries = 0
+print("I'm thinking of a number from 1 to 50.")
+
+while True:
+    guess = int(input("Your guess: "))
+    tries += 1
+    if guess < secret:
+        print("Too low.")
+    elif guess > secret:
+        print("Too high.")
+    else:
+        print(f"Got it in {tries} tries!")
+        break
+`},
+ {name:"functions.py",title:"Functions & recursion",desc:"def, return, recursion",code:`def factorial(n):
+    if n <= 1:
+        return 1
+    return n * factorial(n - 1)
+
+def fibonacci(count):
+    a, b = 0, 1
+    seq = []
+    for _ in range(count):
+        seq.append(a)
+        a, b = b, a + b
+    return seq
+
+for i in range(1, 8):
+    print(f"{i}! = {factorial(i)}")
+
+print("Fibonacci:", fibonacci(12))
+`},
+ {name:"bank.py",title:"Classes (OOP)",desc:"class, methods, exceptions",code:`class BankAccount:
+    def __init__(self, owner, balance=0):
+        self.owner = owner
+        self.balance = balance
+
+    def deposit(self, amount):
+        self.balance += amount
+        return self.balance
+
+    def withdraw(self, amount):
+        if amount > self.balance:
+            raise ValueError("Insufficient funds")
+        self.balance -= amount
+        return self.balance
+
+    def __str__(self):
+        return f"{self.owner}: PHP {self.balance:,.2f}"
+
+acct = BankAccount("Juan", 1500)
+acct.deposit(2500)
+acct.withdraw(800)
+print(acct)
+
+try:
+    acct.withdraw(10000)
+except ValueError as e:
+    print("Error:", e)
+`},
+ {name:"turtle_star.py",title:"Turtle drawing",desc:"Graphics with turtle",code:`import turtle
+
+t = turtle.Turtle()
+t.speed(0)
+colors = ["red", "orange", "gold", "green", "blue", "purple"]
+
+for i in range(36):
+    t.pencolor(colors[i % 6])
+    for _ in range(5):
+        t.forward(90)
+        t.right(144)
+    t.right(10)
+
+turtle.done()
+`},
+ {name:"words.py",title:"Word counter",desc:"strings, dict, sorting",code:`text = """Python is easy to learn. Python is powerful.
+Students can run Python on their phones."""
+
+counts = {}
+for word in text.lower().replace(".", "").split():
+    counts[word] = counts.get(word, 0) + 1
+
+top = sorted(counts.items(), key=lambda kv: kv[1], reverse=True)
+for word, n in top[:5]:
+    print(f"{word:<10} {'#' * n} {n}")
+`}
+];
+
+/* ---------- storage ---------- */
+const KEY="pymobile.v1";
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&Array.isArray(s.files)&&s.files.length)return s}catch(e){}
+  return {files:[{id:uid(),name:"main.py",code:EXAMPLES[0].code}],current:null,fs:15,theme:null}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+function uid(){return Math.random().toString(36).slice(2,9)}
+const state=load(); if(!state.current||!state.files.find(f=>f.id===state.current))state.current=state.files[0].id;
+const cur=()=>state.files.find(f=>f.id===state.current);
+
+/* ---------- theme & font ---------- */
+function applyTheme(){if(state.theme)document.documentElement.setAttribute("data-theme",state.theme);else document.documentElement.removeAttribute("data-theme")}
+applyTheme();
+$("themeBtn").onclick=()=>{const dark=state.theme?state.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;state.theme=dark?"light":"dark";applyTheme();save()};
+function applyFs(){document.documentElement.style.setProperty("--fs",state.fs+"px");if(ed)ed.refresh()}
+$("fontUp").onclick=()=>{state.fs=Math.min(24,(state.fs||15)+1);applyFs();save()};
+$("fontDown").onclick=()=>{state.fs=Math.max(11,(state.fs||15)-1);applyFs();save()};
+
+/* ---------- toast ---------- */
+let tt;function toast(m){const t=$("toast");t.textContent=m;t.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("on"),1800)}
+
+/* ---------- editor ---------- */
+let ed=null;
+function initEditor(){
+  if(!window.CodeMirror){$("loading").textContent="Couldn't load the editor. Check your connection and reload the page.";return}
+  $("loading").remove();
+  ed=CodeMirror($("edwrap"),{value:cur().code,mode:{name:"python",version:3},lineNumbers:true,indentUnit:4,tabSize:4,
+    matchBrackets:true,autoCloseBrackets:true,styleActiveLine:true,lineWrapping:false,viewportMargin:20,
+    extraKeys:{"Tab":cm=>cm.somethingSelected()?cm.indentSelection("add"):cm.replaceSelection("    "),
+      "Shift-Tab":cm=>cm.indentSelection("subtract"),"Ctrl-Enter":()=>run(),"Cmd-Enter":()=>run()}});
+  let st;ed.on("change",()=>{clearErr();clearTimeout(st);st=setTimeout(()=>{cur().code=ed.getValue();save()},300)});
+  applyFs();
+}
+let errLine=null;
+function clearErr(){if(errLine!==null&&ed){ed.removeLineClass(errLine,"background","cm-errline");errLine=null}}
+function markErr(n){if(!ed||!n)return;clearErr();errLine=n-1;ed.addLineClass(errLine,"background","cm-errline")}
+function gotoLine(n){setView("code");if(!ed)return;ed.focus();ed.setCursor({line:n-1,ch:0});ed.scrollIntoView({line:n-1,ch:0},80)}
+
+/* ---------- key bar ---------- */
+const KEYS=[["⇥","tab","Indent"],["⇤","dedent","Outdent"],[":"],["(",")"],["[","]"],["{","}"],['"','"'],["'","'"],["="],["+"],["-"],["*"],["/"],["#"],["_"],["<"],[">"],["%"],[","],["."],["undo","undo","Undo"],["redo","redo","Redo"]];
+KEYS.forEach(k=>{const b=document.createElement("button");b.type="button";
+  const [a,c,label]=k; b.textContent=(a==="undo"||a==="redo")?label:(c&&c.length===1&&c!==a?a+c:a);
+  if(label)b.setAttribute("aria-label",label); if(a==="undo"||a==="redo")b.className="wide";
+  b.addEventListener("mousedown",e=>e.preventDefault());
+  b.onclick=()=>{if(!ed)return;ed.focus();
+    if(c==="tab"){if(ed.somethingSelected())ed.execCommand("indentMore");else ed.replaceSelection("    ")}
+    else if(c==="dedent")ed.execCommand("indentLess");
+    else if(c==="undo")ed.undo(); else if(c==="redo")ed.redo();
+    else if(c&&c.length===1){const sel=ed.getSelection();ed.replaceSelection(a+sel+c);if(!sel){const p=ed.getCursor();ed.setCursor({line:p.line,ch:p.ch-1})}}
+    else ed.replaceSelection(a);};
+  $("keys").appendChild(b)});
+
+/* ---------- views (phone) ---------- */
+function setView(v){$("work").dataset.view=v;$("tabCode").setAttribute("aria-selected",v==="code");$("tabOut").setAttribute("aria-selected",v==="out");if(v==="out")$("outDot").hidden=true;if(v==="code"&&ed)setTimeout(()=>ed.refresh(),0)}
+$("tabCode").onclick=()=>setView("code");$("tabOut").onclick=()=>setView("out");
+const narrow=()=>matchMedia("(max-width:760px)").matches;
+
+/* ---------- console ---------- */
+const con=$("console");
+function out(text,cls){$("empty").hidden=true;const last=con.lastChild;
+  if(!cls&&last&&last.nodeType===3){last.appendData(text)}else if(cls){const s=document.createElement("span");s.className=cls;s.textContent=text;con.appendChild(s)}else con.appendChild(document.createTextNode(text));
+  scrollOut();if(narrow()&&$("work").dataset.view!=="out")$("outDot").hidden=false}
+function scrollOut(){const o=$("outscroll");o.scrollTop=o.scrollHeight}
+function setStatus(t,cls){const s=$("status");s.textContent=t;s.className="pill"+(cls?" "+cls:"")}
+$("clearOut").onclick=()=>{con.textContent="";$("empty").hidden=false;$("turtle").innerHTML="";$("turtle").classList.remove("on");setStatus("Ready")};
+function copyText(txt,msg){const done=()=>toast(msg);
+  try{navigator.clipboard.writeText(txt).then(done,()=>fallback())}catch(e){fallback()}
+  function fallback(){const ta=document.createElement("textarea");ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");done()}catch(e){toast("Select the text and copy it manually")}ta.remove()}}
+$("copyOut").onclick=()=>copyText(con.innerText,"Output copied");
+
+/* ---------- run ---------- */
+let running=false,stopReq=false,pendingInput=null;
+function builtinRead(f){if(Sk.builtinFiles===undefined||Sk.builtinFiles.files[f]===undefined)throw "File not found: '"+f+"'";return Sk.builtinFiles.files[f]}
+function askInput(prompt){return new Promise((resolve,reject)=>{
+  if(prompt)out(String(prompt));
+  setStatus("Waiting for input","waiting");
+  if(narrow())setView("out");
+  const inp=document.createElement("input");inp.className="pyin";inp.id="pyin";inp.autocomplete="off";inp.autocapitalize="off";inp.spellcheck=false;inp.setAttribute("aria-label","Program input");
+  con.appendChild(inp);scrollOut();setTimeout(()=>inp.focus(),30);
+  pendingInput={reject,inp};
+  inp.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();const v=inp.value;inp.remove();pendingInput=null;out(v,"in");out("\n");setStatus("Running…","running");resolve(v)}});
+})}
+function setRunBtn(){const b=$("runBtn");b.classList.toggle("stop",running);b.querySelector("span").textContent=running?"Stop":"Run";
+  b.querySelector("svg").innerHTML=running?'<rect x="6" y="6" width="12" height="12" rx="1"/>':'<path d="M7 4l13 8-13 8z"/>'}
+async function run(){
+  if(running){stopReq=true;try{Sk.TurtleGraphics&&Sk.TurtleGraphics.stop&&Sk.TurtleGraphics.stop()}catch(e){}if(pendingInput){pendingInput.inp.remove();pendingInput.reject(new Error("__stopped__"));pendingInput=null}return}
+  if(!window.Sk){toast("Python is still loading");return}
+  const code=ed?ed.getValue():cur().code;cur().code=code;save();
+  clearErr();con.textContent="";$("empty").hidden=true;
+  const tDiv=$("turtle");tDiv.innerHTML="";const usesTurtle=/\bimport\s+turtle|\bfrom\s+turtle\b/.test(code);tDiv.classList.toggle("on",usesTurtle);
+  if(usesTurtle){const w=Math.max(260,Math.min(560,$("outscroll").clientWidth-30));try{Sk.TurtleGraphics&&Sk.TurtleGraphics.stop&&Sk.TurtleGraphics.stop()}catch(e){}Sk.TurtleGraphics={target:"turtle",width:w,height:Math.round(w*0.8)}}
+  Sk.configure({output:t=>out(t),read:builtinRead,__future__:Sk.python3,inputfunTakesPrompt:true,inputfun:askInput,yieldLimit:100,execLimit:null});
+  running=true;stopReq=false;setRunBtn();setStatus("Running…","running");
+  if(narrow())setView("out");
+  const t0=performance.now();
+  try{
+    await Sk.misceval.asyncToPromise(()=>Sk.importMainWithBody("<stdin>",false,code,true),{"*":()=>{if(stopReq)throw new Error("__stopped__")}});
+    const ms=performance.now()-t0;setStatus("Finished · "+(ms<1000?Math.round(ms)+" ms":(ms/1000).toFixed(2)+" s"));
+  }catch(e){
+    if(e&&e.message==="__stopped__"||String(e).includes("__stopped__")){out("\n[Program stopped]\n","sys");setStatus("Stopped")}
+    else{
+      const msg=e&&e.toString?e.toString():String(e);
+      let line=e&&e.traceback&&e.traceback.length?e.traceback[e.traceback.length-1].lineno:null;
+      if(e&&e.traceback&&e.traceback.length){const own=e.traceback.filter(t=>t.filename==="<stdin>.py"||t.filename==="<stdin>");if(own.length)line=own[own.length-1].lineno}
+      if(con.textContent&&!con.textContent.endsWith("\n"))out("\n");
+      out(msg.replace(/ on line \d+$/,"")+"\n","err");
+      if(line){const b=document.createElement("button");b.className="jump";b.textContent="Go to line "+line;b.onclick=()=>gotoLine(line);con.appendChild(b);out("\n");markErr(line);setStatus("Error · line "+line,"error")}
+      else setStatus("Error","error");
+    }
+  }finally{running=false;stopReq=false;setRunBtn();scrollOut()}
+}
+$("runBtn").onclick=run;
+
+/* ---------- files drawer ---------- */
+function openDrawer(on){$("drawer").classList.toggle("on",on);$("scrim").classList.toggle("on",on);if(on)renderFiles()}
+$("menuBtn").onclick=()=>openDrawer(true);$("closeDrawer").onclick=()=>openDrawer(false);$("scrim").onclick=()=>openDrawer(false);
+function uniqueName(n){let base=n.replace(/\.py$/,""),name=base+".py",i=2;while(state.files.some(f=>f.name===name))name=base+"_"+(i++)+".py";return name}
+function switchTo(id){if(ed)cur().code=ed.getValue();state.current=id;save();if(ed){ed.setValue(cur().code);ed.clearHistory()}$("fnameBtn").textContent=cur().name;clearErr()}
+let renaming=null,confirmDel=null;
+const I={edit:'<svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg>',del:'<svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg>'};
+function renderFiles(){const L=$("fileList");L.innerHTML="";
+  state.files.forEach(f=>{
+    if(renaming===f.id){const r=document.createElement("div");r.className="rename";r.innerHTML='<input id="renameInput"><button class="textbtn">Save</button>';
+      const inp=r.querySelector("input");inp.value=f.name;const commit=()=>{let v=inp.value.trim();if(v){if(!/\.\w+$/.test(v))v+=".py";if(v!==f.name&&state.files.some(x=>x.name===v)){toast("A file with that name exists");return}f.name=v;save();$("fnameBtn").textContent=cur().name}renaming=null;renderFiles()};
+      r.querySelector("button").onclick=commit;inp.onkeydown=e=>{if(e.key==="Enter")commit();if(e.key==="Escape"){renaming=null;renderFiles()}};L.appendChild(r);setTimeout(()=>{inp.focus();inp.select()},20);return}
+    const r=document.createElement("div");r.className="row"+(f.id===state.current?" cur":"");
+    const o=document.createElement("button");o.className="open";o.textContent=f.name;o.onclick=()=>{switchTo(f.id);openDrawer(false);setView("code")};
+    const e=document.createElement("button");e.className="mini";e.innerHTML=I.edit;e.setAttribute("aria-label","Rename "+f.name);e.onclick=()=>{renaming=f.id;confirmDel=null;renderFiles()};
+    const d=document.createElement("button");d.className="mini"+(confirmDel===f.id?" danger":"");d.innerHTML=confirmDel===f.id?"<small>Sure?</small>":I.del;if(confirmDel===f.id)d.style.width="auto";
+    d.setAttribute("aria-label","Delete "+f.name);
+    d.onclick=()=>{if(confirmDel!==f.id){confirmDel=f.id;renderFiles();return}
+      if(state.files.length===1){f.code="";f.name="main.py";if(ed)ed.setValue("")}else{state.files=state.files.filter(x=>x.id!==f.id);if(state.current===f.id)switchTo(state.files[0].id)}
+      confirmDel=null;save();$("fnameBtn").textContent=cur().name;renderFiles();toast("File deleted")};
+    r.append(o,e,d);L.appendChild(r)});
+}
+function addFile(name,code){if(ed)cur().code=ed.getValue();const f={id:uid(),name:uniqueName(name),code};state.files.push(f);switchTo(f.id);renderFiles();return f}
+$("newFile").onclick=()=>{addFile("untitled.py","");openDrawer(false);setView("code");ed&&ed.focus()};
+$("fnameBtn").onclick=()=>{openDrawer(true);renaming=state.current;renderFiles()};
+$("importBtn").onclick=()=>$("importInput").click();
+$("importInput").onchange=e=>{const file=e.target.files[0];if(!file)return;const rd=new FileReader();rd.onload=()=>{addFile(file.name.replace(/\.txt$/,".py"),String(rd.result));openDrawer(false);setView("code");toast("Opened "+file.name)};rd.readAsText(file);e.target.value=""};
+$("copyCode").onclick=()=>copyText(ed?ed.getValue():cur().code,"Code copied");
+EXAMPLES.forEach(x=>{const b=document.createElement("button");b.className="ex";b.innerHTML="<b></b><span></span>";b.querySelector("b").textContent=x.title;b.querySelector("span").textContent=x.desc;
+  b.onclick=()=>{addFile(x.name,x.code);openDrawer(false);setView("code");toast("Opened "+x.title)};$("exList").appendChild(b)});
+
+/* ---------- boot ---------- */
+$("fnameBtn").textContent=cur().name;
+initEditor();
+if(!window.Sk){setStatus("Python didn't load","error")}
+})();
+</script>
+
+</body>
+</html>
